@@ -18,7 +18,8 @@ public:
   void send(Task t) {
     pthread_mutex_lock(&mutex);
     chan.push(t);
-    pthread_cond_signal(&cond);    // for waiting receives
+    // for waiting receives
+    pthread_cond_signal(&cond);    
     pthread_mutex_unlock(&mutex);
     return;
   }
@@ -31,6 +32,6 @@ public:
     Task t = chan.front();
     chan.pop();
     pthread_mutex_unlock(&mutex);
-    return(t);
+    return t;
   }
 };

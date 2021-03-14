@@ -50,7 +50,8 @@ void * source(IO_Channels * chans) {
 #endif
   }
   cout << "Source: sending EOS" << endl;
-  (chans->out)->send(*(new Task(EOS)));
+  Task eos(EOS);
+  (chans->out)->send(eos);
 #ifdef TRACEMSG
   cout << "Source: EOS Sent\n terminating ... " << endl;
 #endif
@@ -95,8 +96,8 @@ void * drain(IO_Channels * chans) {
 
 }
 
+// usage: a.out ntasks
 int main(int argc, char * argv[]) {
-  // usage: a.out ntasks
 
   if (argc > 1)
     ntasks = atoi(argv[1]);

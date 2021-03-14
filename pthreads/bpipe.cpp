@@ -50,7 +50,8 @@ void * source(IO_Channels * chans) {
 #endif
   }
   cout << "Source: sending EOS" << endl;
-  (chans->out)->send(*(new Task(EOS)));
+  Task eos(EOS);
+  (chans->out)->send(eos);
 #ifdef TRACEMSG
   cout << "Source: EOS Sent\n terminating ... " << endl;
 #endif
