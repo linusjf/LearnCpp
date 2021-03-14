@@ -98,6 +98,13 @@ void * drain(IO_Channels * chans) {
 int main(int argc, char * argv[]) {
   // usage: a.out ntasks
 
+  if (argc > 1)
+    ntasks = atoi(argv[1]);
+  else {
+   cout << "Usage: " << argv[0] <<  " ntasks" << endl;
+   exit(1);
+  }
+  
   Channel<Task> ch12, ch23;
   IO_Channels stage1, stage2, stage3;
   pthread_t tid1, tid2, tid3;
@@ -106,7 +113,6 @@ int main(int argc, char * argv[]) {
   stage2.in = &ch12; stage2.out = &ch23;
   stage3.in = &ch23; stage3.out = NULL;
 
-  ntasks = atoi(argv[1]);
 
   // start third stage
   if(pthread_create(&tid3, NULL, (void *(*)(void *))drain,
@@ -115,7 +121,6 @@ int main(int argc, char * argv[]) {
     return(-1);
   }
   cout << "Drain started" << endl;
-
 
   // start second stage
   if(pthread_create(&tid2, NULL, (void *(*)(void *))square,
