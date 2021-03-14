@@ -1,7 +1,6 @@
 #include <iostream>
 #include <queue>
 
-
 template<class Task> class Channel {
 
 private:
@@ -42,9 +41,8 @@ public:
 
   Task receive() {
     pthread_mutex_lock(&mutex);
-    while(chan.empty()) {
+    while(chan.empty()) 
       pthread_cond_wait(&cond_r, &mutex);
-    }
     Task t = chan.front();
     chan.pop();
     msgno--;

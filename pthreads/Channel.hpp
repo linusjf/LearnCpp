@@ -26,9 +26,8 @@ public:
 
   Task receive() {
     pthread_mutex_lock(&mutex);
-    while(chan.empty()) {
+    while(chan.empty()) 
       pthread_cond_wait(&cond, &mutex);
-    }
     Task t = chan.front();
     chan.pop();
     pthread_mutex_unlock(&mutex);
