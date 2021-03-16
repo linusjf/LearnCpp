@@ -1,4 +1,4 @@
-#!/ usr / bin / env bash
+#!/usr/bin/env bash
 #display usage
 [ $# -eq 0 ] && { echo "Usage: $0 <File Name without extension> options";exit 1;}
 `rm -f $1.exe`
