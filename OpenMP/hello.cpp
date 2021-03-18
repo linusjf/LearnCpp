@@ -37,14 +37,14 @@ int main(int argc, char *argv[])
   int id;
   double wtime;
 
-  cout << "\n";
-  cout << "HELLO_OPENMP\n";
-  cout << "  C++/OpenMP version\n";
+  cout << endl;
+  cout << "HELLO_OPENMP" << endl;
+  cout << "  C++/OpenMP version" << endl;
 
-  cout << "\n";
+  cout << endl;
   cout << "  Number of processors available = " << omp_get_num_procs() << "\n";
   cout << "  Number of threads =              " << omp_get_max_threads()
-       << "\n";
+       << endl;
 
   wtime = omp_get_wtime();
 //
@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
 #pragma omp parallel private(id)
   {
     id = omp_get_thread_num();
-    cout << "  This is process " << id << "\n";
+#pragma omp critical
+    cout << "  This is process " << id << endl;
   }
   //
   //  Finish up by measuring the elapsed time.
@@ -62,12 +63,12 @@ int main(int argc, char *argv[])
   //
   //  Terminate.
   //
-  cout << "\n";
-  cout << "HELLO_OPENMP\n";
-  cout << "  Normal end of execution.\n";
+  cout << endl;
+  cout << "HELLO_OPENMP" << endl;
+  cout << "  Normal end of execution." << endl;
 
-  cout << "\n";
-  cout << "  Elapsed wall clock time = " << wtime << "\n";
+  cout << endl;
+  cout << "  Elapsed wall clock time = " << wtime << endl;
 
   return 0;
 }
