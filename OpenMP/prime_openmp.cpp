@@ -1,18 +1,18 @@
-# include <cstdlib>
-# include <iostream>
-# include <iomanip>
+#include <cstdlib>
+#include <iomanip>
+#include <iostream>
 
-# include <omp.h>
+#include <omp.h>
 
 using namespace std;
 
-int main ( int argc, char *argv[] );
-void prime_number_sweep ( int n_lo, int n_hi, int n_factor );
-int prime_number ( int n );
+int main(int argc, char *argv[]);
+void prime_number_sweep(int n_lo, int n_hi, int n_factor);
+int prime_number(int n);
 
 //****************************************************************************80
 
-int main ( int argc, char *argv[] )
+int main(int argc, char *argv[])
 
 //****************************************************************************80
 //
@@ -27,7 +27,7 @@ int main ( int argc, char *argv[] )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -47,23 +47,24 @@ int main ( int argc, char *argv[] )
   cout << "  C++/OpenMP version\n";
 
   cout << "\n";
-  cout << "  Number of processors available = " << omp_get_num_procs ( ) << "\n";
-  cout << "  Number of threads =              " << omp_get_max_threads ( ) << "\n";
+  cout << "  Number of processors available = " << omp_get_num_procs() << "\n";
+  cout << "  Number of threads =              " << omp_get_max_threads()
+       << "\n";
 
   n_lo = 1;
   n_hi = 131072;
   n_factor = 2;
 
-  prime_number_sweep ( n_lo, n_hi, n_factor );
+  prime_number_sweep(n_lo, n_hi, n_factor);
 
   n_lo = 5;
   n_hi = 500000;
   n_factor = 10;
 
-  prime_number_sweep ( n_lo, n_hi, n_factor );
-//
-//  Terminate.
-//
+  prime_number_sweep(n_lo, n_hi, n_factor);
+  //
+  //  Terminate.
+  //
   cout << "\n";
   cout << "PRIME_OPENMP\n";
   cout << "  Normal end of execution.\n";
@@ -72,7 +73,7 @@ int main ( int argc, char *argv[] )
 }
 //****************************************************************************80
 
-void prime_number_sweep ( int n_lo, int n_hi, int n_factor )
+void prime_number_sweep(int n_lo, int n_hi, int n_factor)
 
 //****************************************************************************80
 //
@@ -115,26 +116,24 @@ void prime_number_sweep ( int n_lo, int n_hi, int n_factor )
 
   n = n_lo;
 
-  while ( n <= n_hi )
-  {
-    wtime = omp_get_wtime ( );
+  while (n <= n_hi) {
+    wtime = omp_get_wtime();
 
-    primes = prime_number ( n );
+    primes = prime_number(n);
 
-    wtime = omp_get_wtime ( ) - wtime;
+    wtime = omp_get_wtime() - wtime;
 
-    cout << "  " << setw(8) << n
-         << "  " << setw(8) << primes
-         << "  " << setw(14) << wtime << "\n";
+    cout << "  " << setw(8) << n << "  " << setw(8) << primes << "  "
+         << setw(14) << wtime << "\n";
 
     n = n * n_factor;
   }
- 
+
   return;
 }
 //****************************************************************************80
 
-int prime_number ( int n )
+int prime_number(int n)
 
 //****************************************************************************80
 //
@@ -164,7 +163,7 @@ int prime_number ( int n )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -186,19 +185,14 @@ int prime_number ( int n )
   int prime;
   int total = 0;
 
-# pragma omp parallel \
-  shared ( n ) \
-  private ( i, j, prime )
+#pragma omp parallel shared(n) private(i, j, prime)
 
-# pragma omp for reduction ( + : total )
-  for ( i = 2; i <= n; i++ )
-  {
+#pragma omp for reduction(+ : total)
+  for (i = 2; i <= n; i++) {
     prime = 1;
 
-    for ( j = 2; j < i; j++ )
-    {
-      if ( i % j == 0 )
-      {
+    for (j = 2; j < i; j++) {
+      if (i % j == 0) {
         prime = 0;
         break;
       }

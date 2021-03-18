@@ -161,7 +161,6 @@ int *prime_table(int prime_num)
   while (p < prime_num) {
     prime = 1;
 
-
     int idx = (int)sqrt(i);
     for (j = 2; j <= idx; j++) {
       if ((i % j) == 0) {
