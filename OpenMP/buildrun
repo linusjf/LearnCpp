@@ -5,7 +5,9 @@
   exit 1;
 }
 `rm -f $1.exe`
-`g++ -std=gnu++20 -fopenmp $1.cpp -o $1.exe $2` [ -e $1.exe ] && {
+`g++ -g -O3 -fopenmp -std=gnu++20 $1.cpp -o $1.exe $2` 
+#`g++ -std=gnu++20 -fopenmp $1.cpp -o $1.exe $2` 
+[ -e $1.exe ] && {
   termux-elf-cleaner $1.exe &> /dev/null;
   exec ./$1.exe;
   exit 0;
