@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
   step(r, d, n);
   duration = (clock() - start) / (double)CLOCKS_PER_SEC;
   cout << "Stepped" << endl;
-  for (int i = 0; i < n; ++i) {
+/*  for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       cout << r[i * n + j] << " ";
       if (j % 10 == 9)
@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
     }
     cout << endl;
     cout << endl;
-  }
+  }*/
   cout << "step: " << duration << " seconds" << endl;
   delete[] d;
 }
