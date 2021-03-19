@@ -25,29 +25,29 @@ int main(int argc, char **argv) {
   step(r, d, n);
   duration = (clock() - start) / (double)CLOCKS_PER_SEC;
   cout << "Stepped" << endl;
-/*  for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j) {
-      cout << r[i * n + j] << " ";
-      if (j % 10 == 9)
-        cout << endl;
-    }
-    cout << endl;
-    cout << endl;
-  }*/
+  /*  for (int i = 0; i < n; ++i) {
+      for (int j = 0; j < n; ++j) {
+        cout << r[i * n + j] << " ";
+        if (j % 10 == 9)
+          cout << endl;
+      }
+      cout << endl;
+      cout << endl;
+    }*/
   cout << "step: " << duration << " seconds" << endl;
   delete[] d;
 }
 
 void step(float *r, const float *d, int n) {
   vector<float> t(n * n);
-#pragma omp parallel for shared(n,t,d)
+#pragma omp parallel for shared(n, t, d)
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       t[n * j + i] = d[n * i + j];
     }
   }
 
-#pragma omp parallel for shared(t,r,n)
+#pragma omp parallel for shared(t, r, n)
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       float v = numeric_limits<float>::infinity();
