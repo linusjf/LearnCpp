@@ -19,16 +19,15 @@ int main(int argc, char **argv) {
 }
 
 void step(float *r, const float *d, int n) {
+#pragma omp parallel for
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       float v = numeric_limits<float>::infinity();
       for (int k = 0; k < n; ++k) {
-        asm("# foo");
         float x = d[n * i + k];
         float y = d[n * k + j];
         float z = x + y;
         v = min(v, z);
-        asm("# foo");
       }
       r[n * i + j] = v;
     }

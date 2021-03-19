@@ -1,25 +1,25 @@
-# include <cstdlib>
-# include <iostream>
-# include <iomanip>
-# include <cmath>
-# include <ctime>
-# include <omp.h>
+#include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <omp.h>
 
 using namespace std;
 
-int main ( );
-void ccopy ( int n, double x[], double y[] );
-void cfft2 ( int n, double x[], double y[], double w[], double sgn );
-void cffti ( int n, double w[] );
-double cpu_time ( void );
-double ggl ( double *ds );
-void step ( int n, int mj, double a[], double b[], double c[], double d[], 
-  double w[], double sgn );
-void timestamp ( );
+int main();
+void ccopy(int n, double x[], double y[]);
+void cfft2(int n, double x[], double y[], double w[], double sgn);
+void cffti(int n, double w[]);
+double cpu_time(void);
+double ggl(double *ds);
+void step(int n, int mj, double a[], double b[], double c[], double d[],
+          double w[], double sgn);
+void timestamp();
 
 //****************************************************************************80
 
-int main ( )
+int main()
 
 //****************************************************************************80
 //
@@ -43,7 +43,7 @@ int main ( )
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -73,7 +73,7 @@ int main ( )
   double z0;
   double z1;
 
-  timestamp ( );
+  timestamp();
   cout << endl;
   cout << "FFT_SERIAL";
   cout << endl;
@@ -82,9 +82,9 @@ int main ( )
   cout << endl;
   cout << "  Demonstrate an implementation of the Fast Fourier Transform\n";
   cout << "  of a complex data vector.\n";
-//
-//  Prepare for tests.
-//
+  //
+  //  Prepare for tests.
+  //
   cout << endl;
   cout << "  Accuracy check:";
   cout << endl;
@@ -92,119 +92,106 @@ int main ( )
   cout << "    FFT ( FFT ( X(1:N) ) ) == N * X(1:N)";
   cout << endl;
   cout << endl;
-  cout << "             N      NITS    Error         Time          Time/Call     MFLOPS";
+  cout << "             N      NITS    Error         Time          Time/Call   "
+          "  MFLOPS";
   cout << endl;
   cout << endl;
 
-  seed  = 331.0;
+  seed = 331.0;
   n = 1;
-//
-//  LN2 is the log base 2 of N.  Each increase of LN2 doubles N.
-//
-  for ( ln2 = 1; ln2 <= 20; ln2++ )
-  {
+  //
+  //  LN2 is the log base 2 of N.  Each increase of LN2 doubles N.
+  //
+  for (ln2 = 1; ln2 <= 20; ln2++) {
     n = 2 * n;
-//
-//  Allocate storage for the complex arrays W, X, Y, Z.  
-//
-//  We handle the complex arithmetic,
-//  and store a complex number as a pair of doubles, a complex vector as a doubly
-//  dimensioned array whose second dimension is 2. 
-//
-    w = new double[  n];
-    x = new double[2*n];
-    y = new double[2*n];
-    z = new double[2*n];
+    //
+    //  Allocate storage for the complex arrays W, X, Y, Z.
+    //
+    //  We handle the complex arithmetic,
+    //  and store a complex number as a pair of doubles, a complex vector as a
+    //  doubly dimensioned array whose second dimension is 2.
+    //
+    w = new double[n];
+    x = new double[2 * n];
+    y = new double[2 * n];
+    z = new double[2 * n];
 
     first = 1;
 
-    for ( icase = 0; icase < 2; icase++ )
-    {
+    for (icase = 0; icase < 2; icase++) {
 
-      if ( first )
-      {
-        for ( i = 0; i < 2 * n; i = i + 2 )
-        {
-          z0 = ggl ( &seed );
-          z1 = ggl ( &seed );
+      if (first) {
+        for (i = 0; i < 2 * n; i = i + 2) {
+          z0 = ggl(&seed);
+          z1 = ggl(&seed);
           x[i] = z0;
           z[i] = z0;
-          x[i+1] = z1;
-          z[i+1] = z1;
+          x[i + 1] = z1;
+          z[i + 1] = z1;
         }
-      } 
-      else
-      {
-        for ( i = 0; i < 2 * n; i = i + 2 )
-        {
+      } else {
+        for (i = 0; i < 2 * n; i = i + 2) {
           z0 = 0.0;
           z1 = 0.0;
           x[i] = z0;
           z[i] = z0;
-          x[i+1] = z1;
-          z[i+1] = z1;
+          x[i + 1] = z1;
+          z[i + 1] = z1;
         }
       }
-//
-//  Initialize the sine and cosine tables.
-//
-      cffti ( n, w );
-//
-//  Transform forward, back 
-//
-      if ( first )
-      {
-        sgn = + 1.0;
-        cfft2 ( n, x, y, w, sgn );
-        sgn = - 1.0;
-        cfft2 ( n, y, x, w, sgn );
-// 
-//  Results should be same as initial multiplied by N.
-//
-        fnm1 = 1.0 / ( double ) n;
+      //
+      //  Initialize the sine and cosine tables.
+      //
+      cffti(n, w);
+      //
+      //  Transform forward, back
+      //
+      if (first) {
+        sgn = +1.0;
+        cfft2(n, x, y, w, sgn);
+        sgn = -1.0;
+        cfft2(n, y, x, w, sgn);
+        //
+        //  Results should be same as initial multiplied by N.
+        //
+        fnm1 = 1.0 / (double)n;
         error = 0.0;
-        for ( i = 0; i < 2 * n; i = i + 2 )
-        {
-          error = error 
-          + pow ( z[i]   - fnm1 * x[i], 2 )
-          + pow ( z[i+1] - fnm1 * x[i+1], 2 );
+        for (i = 0; i < 2 * n; i = i + 2) {
+          error = error + pow(z[i] - fnm1 * x[i], 2) +
+                  pow(z[i + 1] - fnm1 * x[i + 1], 2);
         }
-        error = sqrt ( fnm1 * error );
-        cout << "  " << setw(12) << n
-             << "  " << setw(8) << nits
-             << "  " << setw(12) << error;
+        error = sqrt(fnm1 * error);
+        cout << "  " << setw(12) << n << "  " << setw(8) << nits << "  "
+             << setw(12) << error;
         first = 0;
-      }
-      else
-      {
-        ctime1 = cpu_time ( );
-        for ( it = 0; it < nits; it++ )
-        {
-          sgn = + 1.0;
-          cfft2 ( n, x, y, w, sgn );
-          sgn = - 1.0;
-          cfft2 ( n, y, x, w, sgn );
+      } else {
+        ctime1 = cpu_time();
+        for (it = 0; it < nits; it++) {
+          sgn = +1.0;
+          cfft2(n, x, y, w, sgn);
+          sgn = -1.0;
+          cfft2(n, y, x, w, sgn);
         }
-        ctime2 = cpu_time ( );
+        ctime2 = cpu_time();
         ctime = ctime2 - ctime1;
 
-        flops = 2.0 * ( double ) nits * ( 5.0 * ( double ) n * ( double ) ln2 );
+        flops = 2.0 * (double)nits * (5.0 * (double)n * (double)ln2);
 
         mflops = flops / 1.0E+06 / ctime;
 
-        cout << "  " << setw(12) << ctime
-             << "  " << setw(12) << ctime / ( double ) ( 2 * nits )
-             << "  " << setw(12) << mflops << endl;
+        cout << "  " << setw(12) << ctime << "  " << setw(12)
+             << ctime / (double)(2 * nits) << "  " << setw(12) << mflops
+             << endl;
       }
     }
-    if ( ( ln2 % 4 ) == 0 ) 
+    if ((ln2 % 4) == 0)
       nits = nits / 10;
-    if ( nits < 1 ) 
+    if (nits < 1)
       nits = 1;
-    delete [] w;
-    delete [] x;
-    delete [] y;
-    delete [] z;
+    delete[] w;
+    delete[] x;
+    delete[] y;
+    delete[] z;
   }
 
   cout << endl;
@@ -213,13 +200,13 @@ int main ( )
   cout << "  Normal end of execution.";
   cout << endl;
   cout << endl;
-  timestamp ( );
+  timestamp();
 
   return 0;
 }
 //****************************************************************************80
 
-void ccopy ( int n, double x[], double y[] )
+void ccopy(int n, double x[], double y[])
 
 //****************************************************************************80
 //
@@ -247,7 +234,7 @@ void ccopy ( int n, double x[], double y[] )
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -264,16 +251,15 @@ void ccopy ( int n, double x[], double y[] )
 {
   int i;
 
-  for ( i = 0; i < n; i++ )
-  {
-    y[i*2+0] = x[i*2+0];
-    y[i*2+1] = x[i*2+1];
-   }
+  for (i = 0; i < n; i++) {
+    y[i * 2 + 0] = x[i * 2 + 0];
+    y[i * 2 + 1] = x[i * 2 + 1];
+  }
   return;
 }
 //****************************************************************************80
 
-void cfft2 ( int n, double x[], double y[], double w[], double sgn )
+void cfft2(int n, double x[], double y[], double w[], double sgn)
 
 //****************************************************************************80
 //
@@ -292,7 +278,7 @@ void cfft2 ( int n, double x[], double y[], double w[], double sgn )
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -302,7 +288,7 @@ void cfft2 ( int n, double x[], double y[], double w[], double sgn )
 //
 //    Input, int N, the size of the array to be transformed.
 //
-//    Input/output, double X[2*N], the data to be transformed.  
+//    Input/output, double X[2*N], the data to be transformed.
 //    On output, the contents of X have been overwritten by work information.
 //
 //    Output, double Y[2*N], the forward or backward FFT of X.
@@ -317,45 +303,45 @@ void cfft2 ( int n, double x[], double y[], double w[], double sgn )
   int mj;
   int tgle;
 
-   m = ( int ) ( log ( ( double ) n ) / log ( 1.99 ) );
-   mj   = 1;
-//
-//  Toggling switch for work array.
-//
+  m = (int)(log((double)n) / log(1.99));
+  mj = 1;
+  //
+  //  Toggling switch for work array.
+  //
   tgle = 1;
-  step ( n, mj, &x[0*2+0], &x[(n/2)*2+0], &y[0*2+0], &y[mj*2+0], w, sgn );
+  step(n, mj, &x[0 * 2 + 0], &x[(n / 2) * 2 + 0], &y[0 * 2 + 0], &y[mj * 2 + 0],
+       w, sgn);
 
-  if ( n == 2 )
+  if (n == 2)
     return;
 
-  for ( j = 0; j < m - 2; j++ )
-  {
+  for (j = 0; j < m - 2; j++) {
     mj = mj * 2;
-    if ( tgle )
-    {
-      step ( n, mj, &y[0*2+0], &y[(n/2)*2+0], &x[0*2+0], &x[mj*2+0], w, sgn );
+    if (tgle) {
+      step(n, mj, &y[0 * 2 + 0], &y[(n / 2) * 2 + 0], &x[0 * 2 + 0],
+           &x[mj * 2 + 0], w, sgn);
       tgle = 0;
-    }
-    else
-    {
-      step ( n, mj, &x[0*2+0], &x[(n/2)*2+0], &y[0*2+0], &y[mj*2+0], w, sgn );
+    } else {
+      step(n, mj, &x[0 * 2 + 0], &x[(n / 2) * 2 + 0], &y[0 * 2 + 0],
+           &y[mj * 2 + 0], w, sgn);
       tgle = 1;
     }
   }
-//
-//  Last pass thru data: move y to x if needed 
-//
-  if ( tgle ) 
-    ccopy ( n, y, x );
+  //
+  //  Last pass thru data: move y to x if needed
+  //
+  if (tgle)
+    ccopy(n, y, x);
 
   mj = n / 2;
-  step ( n, mj, &x[0*2+0], &x[(n/2)*2+0], &y[0*2+0], &y[mj*2+0], w, sgn );
+  step(n, mj, &x[0 * 2 + 0], &x[(n / 2) * 2 + 0], &y[0 * 2 + 0], &y[mj * 2 + 0],
+       w, sgn);
 
   return;
 }
 //****************************************************************************80
 
-void cffti ( int n, double w[] )
+void cffti(int n, double w[])
 
 //****************************************************************************80
 //
@@ -374,7 +360,7 @@ void cffti ( int n, double w[] )
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -394,24 +380,23 @@ void cffti ( int n, double w[] )
   const double pi = 3.141592653589793;
 
   n2 = n / 2;
-  aw = 2.0 * pi / ( ( double ) n );
+  aw = 2.0 * pi / ((double)n);
 
-  for ( i = 0; i < n2; i++ )
-  {
-    arg = aw * ( ( double ) i );
-    w[i*2+0] = cos ( arg );
-    w[i*2+1] = sin ( arg );
+  for (i = 0; i < n2; i++) {
+    arg = aw * ((double)i);
+    w[i * 2 + 0] = cos(arg);
+    w[i * 2 + 1] = sin(arg);
   }
   return;
 }
 //****************************************************************************80
 
-double cpu_time ( void )
+double cpu_time(void)
 
 //****************************************************************************80
 //
 //  Purpose:
-// 
+//
 //    CPU_TIME reports the elapsed CPU time.
 //
 //  Modified:
@@ -427,17 +412,17 @@ double cpu_time ( void )
 //    Output, double CPU_TIME, the current total elapsed CPU time in second.
 //
 {
-  return ( double ) clock ( ) / ( double ) CLOCKS_PER_SEC;
+  return (double)clock() / (double)CLOCKS_PER_SEC;
 }
 //****************************************************************************80
 
-double ggl ( double *seed )
+double ggl(double *seed)
 
 //****************************************************************************80
 //
 //  Purpose:
 //
-//    GGL generates uniformly distributed pseudorandom numbers. 
+//    GGL generates uniformly distributed pseudorandom numbers.
 //
 //  Modified:
 //
@@ -450,7 +435,7 @@ double ggl ( double *seed )
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -467,15 +452,14 @@ double ggl ( double *seed )
   double t;
 
   t = *seed;
-  t = fmod ( 16807.0 * t, d2 );
+  t = fmod(16807.0 * t, d2);
   *seed = t;
-  return  ( t - 1.0 ) / ( d2 - 1.0 );
-
+  return (t - 1.0) / (d2 - 1.0);
 }
 //****************************************************************************80
 
-void step ( int n, int mj, double a[], double b[], double c[],
-  double d[], double w[], double sgn )
+void step(int n, int mj, double a[], double b[], double c[], double d[],
+          double w[], double sgn)
 
 //****************************************************************************80
 //
@@ -494,7 +478,7 @@ void step ( int n, int mj, double a[], double b[], double c[],
 //
 //  Reference:
 //
-//    Wesley Petersen, Peter Arbenz, 
+//    Wesley Petersen, Peter Arbenz,
 //    Introduction to Parallel Computing - A practical guide with examples in C,
 //    Oxford University Press,
 //    ISBN: 0-19-851576-6,
@@ -519,37 +503,35 @@ void step ( int n, int mj, double a[], double b[], double c[],
   mj2 = 2 * mj;
   lj = n / mj2;
 
-  for ( j = 0; j < lj; j++ )
-  {
+  for (j = 0; j < lj; j++) {
     jw = j * mj;
-    ja  = jw;
-    jb  = ja;
-    jc  = j * mj2;
-    jd  = jc;
+    ja = jw;
+    jb = ja;
+    jc = j * mj2;
+    jd = jc;
 
-    wjw[0] = w[jw*2+0]; 
-    wjw[1] = w[jw*2+1];
+    wjw[0] = w[jw * 2 + 0];
+    wjw[1] = w[jw * 2 + 1];
 
-    if ( sgn < 0.0 ) 
-      wjw[1] = - wjw[1];
+    if (sgn < 0.0)
+      wjw[1] = -wjw[1];
 
-    for ( k = 0; k < mj; k++ )
-    {
-      c[(jc+k)*2+0] = a[(ja+k)*2+0] + b[(jb+k)*2+0];
-      c[(jc+k)*2+1] = a[(ja+k)*2+1] + b[(jb+k)*2+1];
+    for (k = 0; k < mj; k++) {
+      c[(jc + k) * 2 + 0] = a[(ja + k) * 2 + 0] + b[(jb + k) * 2 + 0];
+      c[(jc + k) * 2 + 1] = a[(ja + k) * 2 + 1] + b[(jb + k) * 2 + 1];
 
-      ambr = a[(ja+k)*2+0] - b[(jb+k)*2+0];
-      ambu = a[(ja+k)*2+1] - b[(jb+k)*2+1];
+      ambr = a[(ja + k) * 2 + 0] - b[(jb + k) * 2 + 0];
+      ambu = a[(ja + k) * 2 + 1] - b[(jb + k) * 2 + 1];
 
-      d[(jd+k)*2+0] = wjw[0] * ambr - wjw[1] * ambu;
-      d[(jd+k)*2+1] = wjw[1] * ambr + wjw[0] * ambu;
+      d[(jd + k) * 2 + 0] = wjw[0] * ambr - wjw[1] * ambu;
+      d[(jd + k) * 2 + 1] = wjw[1] * ambr + wjw[0] * ambu;
     }
   }
   return;
 }
 //****************************************************************************80
 
-void timestamp ( )
+void timestamp()
 
 //****************************************************************************80
 //
@@ -563,7 +545,7 @@ void timestamp ( )
 //
 //  Licensing:
 //
-//    This code is distributed under the GNU LGPL license. 
+//    This code is distributed under the GNU LGPL license.
 //
 //  Modified:
 //
@@ -578,19 +560,19 @@ void timestamp ( )
 //    None
 //
 {
-# define TIME_SIZE 40
+#define TIME_SIZE 40
 
   static char time_buffer[TIME_SIZE];
   const struct tm *tm;
   time_t now;
 
-  now = time ( NULL );
-  tm = localtime ( &now );
+  now = time(NULL);
+  tm = localtime(&now);
 
-  strftime ( time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm );
+  strftime(time_buffer, TIME_SIZE, "%d %B %Y %I:%M:%S %p", tm);
 
   cout << time_buffer << endl;
 
   return;
-# undef TIME_SIZE
+#undef TIME_SIZE
 }

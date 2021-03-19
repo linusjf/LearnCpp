@@ -25,8 +25,12 @@ int main(int argc, char **argv) {
   duration = (clock() - start) / (double)CLOCKS_PER_SEC;
   cout << "Stepped" << endl;
   for (int i = 0; i < n; ++i) {
-    for (int j = 0; j < n; ++j)
+    for (int j = 0; j < n; ++j) {
       cout << r[i * n + j] << " ";
+      if (j % 10 == 9)
+        cout << endl;
+    }
+    cout << endl;
     cout << endl;
   }
   cout << "step: " << duration << " seconds" << endl;
@@ -34,6 +38,7 @@ int main(int argc, char **argv) {
 }
 
 void step(float *r, const float *d, int n) {
+#pragma omp parallel for
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
       float v = numeric_limits<float>::infinity();
