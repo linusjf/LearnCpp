@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+#display usage
+[ $# -eq 0 ] && {
+  echo "Usage: $0 <File Name with cpp extension>";
+  exit 1;
+}
+if [[ ! "$1" =~ [.]cpp$ ]]
+then
+  echo "Usage: $0 <File Name with cpp extension>";
+  exit 1;
+fi
+g++ -S -g -std=gnu++20 "$1"
+exit "$?"
