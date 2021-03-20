@@ -6,6 +6,7 @@
 }
 rm -f $1.exe
 g++ -g -ftree-vectorize -O2 -fopenmp -std=gnu++20 $1.cpp -o $1.exe $2
+
 [ -e $1.exe ] && {
   termux-elf-cleaner $1.exe &> /dev/null;
   exec ./$1.exe;
