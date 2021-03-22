@@ -107,6 +107,9 @@ void step(float *r, const float *d_, int n) {
       float8_t vv110 = f8infty;
       float8_t vv111 = f8infty;
       for (int k = 0; k < n; ++k) {
+        constexpr int PF = 20;
+        __builtin_prefetch(&vd[n * ia + k + PF]);
+        __builtin_prefetch(&vt[n * ja + k + PF]);
         float8_t a000 = vd[n * ia + k];
         float8_t b000 = vt[n * ja + k];
         float8_t a100 = swap4(a000);
