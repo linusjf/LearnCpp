@@ -5,25 +5,21 @@ extern int a, b;
 extern int c;
 extern float f;
 int func();
- 
-int main ()
-{
- // Variable definition:
- int a, b;
- int c;
- float f;
- // actual initialization
- a = 10;
- b = 20;
- c = a + b;
- cout << c << endl ;
- f = 70.0/3.0;
- cout << f << endl ;
- return func();
+
+int main() {
+  // Variable definition:
+  int a, b;
+  int c;
+  float f;
+  // actual initialization
+  a = 10;
+  b = 20;
+  c = a + b;
+  cout << c << endl;
+  f = 70.0 / 3.0;
+  cout << f << endl;
+  return func();
 }
 
 // function definition
-int func()
-{
- return 0;
-}
+int func() { return 0; }
