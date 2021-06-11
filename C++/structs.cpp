@@ -3,20 +3,20 @@
 
 using namespace std;
 
-void printBook(struct Book book);
-
-struct Book {
+typedef struct {
   char title[50];
   char author[50];
   char subject[100];
   int book_id;
-};
+} Book;
+
+void printBook(Book* book);
 
 int main() {
   // Declare Book1 of type Book
-  struct Book Book1;
+  Book Book1;
   // Declare Book2 of type Book
-  struct Book Book2;
+  Book Book2;
   // book 1 specification
   strcpy(Book1.title, "Learn C++ Programming");
   strcpy(Book1.author, "Chand Miyan");
@@ -28,15 +28,15 @@ int main() {
   strcpy(Book2.subject, "Telecom");
   Book2.book_id = 6495700;
   // Print Book1 info
-  printBook(Book1);
+  printBook(&Book1);
   // Print Book2 info
-  printBook(Book2);
+  printBook(&Book2);
   return 0;
 }
 
-void printBook(struct Book book) {
-  cout << "Book title: " << book.title << endl;
-  cout << "Book author: " << book.author << endl;
-  cout << "Book subject: " << book.subject << endl;
-  cout << "Book id: " << book.book_id << endl;
+void printBook(Book* book) {
+  cout << "Book title: " << book->title << endl;
+  cout << "Book author: " << book->author << endl;
+  cout << "Book subject: " << book->subject << endl;
+  cout << "Book id: " << book->book_id << endl;
 }
