@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+g++ "$@"
+termux-elf-cleaner ./a.out &> /dev/null
+./a.out
