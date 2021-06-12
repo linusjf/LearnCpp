@@ -1,4 +1,17 @@
 #!/usr/bin/env bash
+function message()
+{
+  ret=$?
+  if [ $ret -ne 0 ]
+  then
+    echo exit $ret
+  fi
+  exit $ret
+}
+
+set -e
+trap message EXIT
+
 g++ "$@"
 termux-elf-cleaner ./a.out &> /dev/null
 ./a.out
