@@ -4,14 +4,26 @@ using namespace std;
 
 class Line {
  public:
+  Line();
+  Line(double len);
+  ~Line();
   void setLength(double len);
   double getLength(void);
- 
+
  protected:
   double length;
 };
 
-// Member functions definitions
+Line::Line(void) {
+  length = 0;
+}
+
+Line::Line(double len) : length(len) {
+}
+
+Line::~Line() {
+}
+
 double Line::getLength(void) {
   return length;
 }
@@ -20,7 +32,6 @@ void Line::setLength(double len) {
   length = len;
 }
 
-// Main function for the program
 int main() {
   Line line;
   // set line length
