@@ -54,5 +54,16 @@ int boxMain() {
   // volume of box 3
   volume = Box3.getVolume();
   cout << "Volume of Box3 : " << volume << endl;
+  // Use friend function to print the wdith.
+  printWidth(Box3);
+  Box *ptrBox; // Declare pointer to a class.
+ // Save the address of first object
+ ptrBox = &Box1;
+ // Now try to access a member using member access operator
+ cout << "Volume of Box1: " << ptrBox->getVolume() << endl;
+ // Save the address of first object
+ ptrBox = &Box2;
+ // Now try to access a member using member access operator
+ cout << "Volume of Box2: " << ptrBox->getVolume() << endl;
   return 0;
 }

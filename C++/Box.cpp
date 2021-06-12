@@ -1,4 +1,5 @@
-
+#include <iostream>
+using namespace std;
 int boxMain();
 
 class Box {
@@ -45,6 +46,10 @@ class Box {
 
   static int getCount() {
     return objectCount;
+  }
+
+  friend void printWidth( Box box ) {
+ cout << "Width of box : " << box.breadth <<endl;
   }
 
  protected:
