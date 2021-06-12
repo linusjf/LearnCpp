@@ -5,11 +5,9 @@ using namespace std;
 class Distance {
  private:
   int feet;
-  // 0 to infinite
   int inches;
-  // 0 to 12
+
  public:
-  // required constructors
   Distance() {
     feet = 0;
     inches = 0;
@@ -18,6 +16,9 @@ class Distance {
   Distance(int f, int i) {
     feet = f;
     inches = i;
+  }
+
+  Distance(const Distance &obj) : Distance(obj.feet, obj.inches) {
   }
 
   // method to display distance
@@ -35,21 +36,33 @@ class Distance {
     return input;
   }
 
+  void operator=(const Distance &D) {
+    feet = D.feet;
+    inches = D.inches;
+  }
+
   // overloaded minus (-) operator
   Distance operator-() {
     return Distance(-feet, -inches);
+  }
+
+  // overload function call
+  Distance operator()(int a, int b, int c) {
+    Distance D;
+    D.feet = a + c + 10;
+    D.inches = b + c + 100;
+    return D;
+  }
+
+  ~Distance() {
   }
 };
 
 int main() {
   Distance D1(11, 10), D2(-5, 11), D3;
-  // apply negation
   D1 = -D1;
-  // display D1
   D1.displayDistance();
-  // apply negation
   Distance D4 = -D2;
-  // display D2
   D2.displayDistance();
   D4.displayDistance();
 
@@ -58,5 +71,12 @@ int main() {
   cout << "First Distance : " << D1 << endl;
   cout << "Second Distance :" << D2 << endl;
   cout << "Third Distance :" << D3 << endl;
+  D1 = D2;
+  cout << "First Distance :";
+  D1.displayDistance();
+  // invoke operator()
+  D2 = D1(10, 10, 10);
+  cout << "Second Distance :";
+  D2.displayDistance();
   return 0;
 }
