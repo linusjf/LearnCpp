@@ -25,6 +25,16 @@ class Distance {
     cout << "F: " << feet << " I:" << inches << endl;
   }
 
+  friend ostream &operator<<(ostream &output, const Distance &D) {
+    output << "F : " << D.feet << " I : " << D.inches;
+    return output;
+  }
+
+  friend istream &operator>>(istream &input, Distance &D) {
+    input >> D.feet >> D.inches;
+    return input;
+  }
+
   // overloaded minus (-) operator
   Distance operator-() {
     return Distance(-feet, -inches);
@@ -32,7 +42,7 @@ class Distance {
 };
 
 int main() {
-  Distance D1(11, 10), D2(-5, 11);
+  Distance D1(11, 10), D2(-5, 11), D3;
   // apply negation
   D1 = -D1;
   // display D1
@@ -42,5 +52,11 @@ int main() {
   // display D2
   D2.displayDistance();
   D4.displayDistance();
+
+  cout << "Enter the value of object : " << endl;
+  cin >> D3;
+  cout << "First Distance : " << D1 << endl;
+  cout << "Second Distance :" << D2 << endl;
+  cout << "Third Distance :" << D3 << endl;
   return 0;
 }
