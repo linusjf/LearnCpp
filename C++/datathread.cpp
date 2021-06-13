@@ -12,10 +12,12 @@ struct thread_data {
 };
 
 void *printHello(void *threadarg) {
-  struct thread_data *my_data;
-  my_data = (struct thread_data *)threadarg;
+  struct thread_data *my_data = (struct thread_data *)threadarg;
   char outstr[100];
-  sprintf(outstr, "Thread ID: %d Message: %s\n", my_data->thread_id, my_data->message);
+  sprintf(outstr,
+          "Thread ID: %d Message: %s\n",
+          my_data->thread_id,
+          my_data->message);
   cout << outstr;
   pthread_exit(NULL);
 }
