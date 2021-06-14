@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#display usage
+[ $# -eq 0 ] && {
+  echo "Usage: $0 <File Name without extension> options";
+  exit 1;
+}
+fname="$1"
+rm -f "$fname".cgi
+shift
+g++ -std=c++20 "$fname".cpp -o "$fname".cgi -lcgicc $*
+[ -e "$fname.cgi" ] && {
+  termux-elf-cleaner "$fname".cgi &> /dev/null;
+  exec ./"$fname".cgi;
+  exit 0;
+}
