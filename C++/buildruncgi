@@ -4,12 +4,13 @@
   echo "Usage: $0 <File Name without extension> options";
   exit 1;
 }
+cgidir="cgi-bin"
 fname="$1"
-rm -f "$fname".cgi
+rm -f "$cgidir"/"$fname".cgi
 shift
-g++ -std=c++20 "$fname".cpp -o "$fname".cgi -lcgicc $*
-[ -e "$fname.cgi" ] && {
-  termux-elf-cleaner "$fname".cgi &> /dev/null;
-  exec ./"$fname".cgi;
+g++ -std=c++20 "$fname".cpp -o "$cgidir"/"$fname".cgi -lcgicc $*
+[ -e "$cgidir"/"$fname".cgi ] && {
+  termux-elf-cleaner "$cgidir"/"$fname".cgi &> /dev/null;
+  exec ./"$cgidir"/"$fname".cgi;
   exit 0;
 }
