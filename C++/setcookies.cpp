@@ -4,10 +4,10 @@ using namespace std;
 
 int main ()
 {
- cout << "Set-Cookie:UserID=XYZ;\r\n";
- cout << "Set-Cookie:Password=XYZ123;\r\n";
- cout << "Set-Cookie:Domain=www.tutorialspoint.com;\r\n";
- cout << "Set-Cookie:Path=/perl;\n";
+ cout << "Set-Cookie:UserID=XYZ;";
+ cout << "Set-Cookie:Password=XYZ123;";
+ cout << "Set-Cookie:Domain=www.tutorialspoint.com;";
+ cout << "Set-Cookie:Path=/perl;";
  cout << "Content-type:text/html\r\n\r\n";
  cout << "<html>\n";
  cout << "<head>\n";
@@ -17,6 +17,6 @@ int main ()
  cout << "Setting cookies" << endl; 
  cout << "<br/>\n";
  cout << "</body>\n";
- cout << "</html>\n";
+ cout << "</html>";
  return 0;
 }

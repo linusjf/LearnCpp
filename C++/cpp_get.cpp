@@ -34,6 +34,6 @@ int main() {
   }
   cout << "<br/>\n";
   cout << "</body>\n";
-  cout << "</html>\n";
+  cout << "</html>";
   return 0;
 }

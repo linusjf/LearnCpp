@@ -30,9 +30,9 @@ int main() {
     cout << cci->getValue();
     cout << "</td></tr>\n";
   }
-  cout << "</table><\n";
+  cout << "</table>\n";
   cout << "<br/>\n";
   cout << "</body>\n";
-  cout << "</html>\n";
+  cout << "</html>";
   return 0;
 }

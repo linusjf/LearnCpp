@@ -27,15 +27,15 @@ int main() {
   } else {
     cout << "Maths Flag: OFF " << endl;
   }
-  cout << "<br/>\n";
+  cout << "<br/>";
   physics_flag = formData.queryCheckbox("physics");
   if (physics_flag) {
     cout << "Physics Flag: ON " << endl;
   } else {
     cout << "Physics Flag: OFF " << endl;
   }
-  cout << "<br/>\n";
-  cout << "</body>\n";
-  cout << "</html>\n";
+  cout << "<br/>";
+  cout << "</body>";
+  cout << "</html>";
   return 0;
 }
