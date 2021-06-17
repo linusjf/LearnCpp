@@ -17,11 +17,11 @@ value2 = value;
 virtual void foo() = 0;
 };
 
-class Subclass : public Base {
+class Subclass final : public Base {
 public:
 // inheritance constructor
 using Base::Base; 
-void foo() {};
+void foo() override final {};
 };
 
 int main() {
