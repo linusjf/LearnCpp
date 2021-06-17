@@ -24,6 +24,14 @@ using Base::Base;
 void foo() override final {};
 };
 
+class Magic {
+public:
+// explicit let compiler use default constructor
+Magic() = default; 
+Magic& operator=(const Magic&) = delete; // explicit declare refuse constructor
+Magic(int magic_number);
+};
+
 int main() {
 Subclass s(3);
 std::cout << s.value1 << std::endl;
