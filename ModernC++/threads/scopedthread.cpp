@@ -43,6 +43,6 @@ struct func {
 
 int main() {
   int some_local_state;
-  scoped_thread t((thread(func(some_local_state))));
+  scoped_thread t{(thread(func(some_local_state)))};
   do_something_in_current_thread();
 }
