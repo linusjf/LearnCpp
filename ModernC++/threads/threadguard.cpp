@@ -31,6 +31,7 @@ class thread_guard {
     cout << "calling join in destructor" << endl;
     if (t.joinable()) {
       t.join();
+      assert(!t.joinable());
     }
   }
   thread_guard(thread_guard const&) = delete;
