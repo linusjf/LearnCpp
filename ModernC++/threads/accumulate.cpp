@@ -42,7 +42,6 @@ T parallel_accumulate(Iterator first, Iterator last, T init) {
 }
 
 int main() {
-  //default initialized to 0
   vector<int> ivec(1000000);
   fill(ivec.begin(), ivec.end(), 1);
   int res = parallel_accumulate(ivec.begin(), ivec.end(), 100);
