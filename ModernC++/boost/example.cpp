@@ -13,4 +13,5 @@ int main()
 
     for_each(
         in(cin), in(), cout << (_1 * 3) << " " );
+    cout << endl;
 }
