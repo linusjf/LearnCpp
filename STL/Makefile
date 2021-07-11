@@ -9,5 +9,9 @@ all:
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
 run:
 	./$(TARGET)
+runswitch:
+	./$(TARGET) a
+	./$(TARGET) b
+	./$(TARGET) c
 clean:
 	rm -rf *.o $(TARGET)
