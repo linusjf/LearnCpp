@@ -27,13 +27,11 @@ struct sum {
   template <typename... Ts>
   sum(Ts&&... values) : value{(values + ...)} {
   }
-  template <typename... Ts>
+  template <typename... Ts,
+              typename CT = common_type<Ts...>>
   sum(Ts&&...ts) -> 
-    sum<common_type_t<Ts...>>(Ts&&...ts);
+    sum<CT>(Ts...ts);
 };
-
-template <typename... Ts>
-auto sumimpl(Ts&&... ts) -> sum<common_type_t<Ts&&...>>;
 
 int main() {
   // pair<int, const char*>
@@ -50,7 +48,4 @@ int main() {
 
   std::cout << s.value << '\n' << string_sum.value << '\n';
 
-  sum s2 = sumimpl(1u, 2.0, 3, 4.0f);
-  sum string_sum2 = sumimpl(std::string{"abc"}, "def");
-  std::cout << s2.value << '\n' << string_sum2.value << '\n';
 }
