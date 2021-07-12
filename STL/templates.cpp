@@ -27,10 +27,8 @@ struct sum {
   template <typename... Ts>
   sum(Ts&&... values) : value{(values + ...)} {
   }
-  template <typename... Ts,
-              typename CT = common_type<Ts...>>
-  sum(Ts&&...ts) -> 
-    sum<CT>(Ts...ts);
+  template <typename... Ts>
+  sum(Ts&&... ts) -> sum<std::common_type_t<Ts...>>;
 };
 
 int main() {
@@ -48,4 +46,7 @@ int main() {
 
   std::cout << s.value << '\n' << string_sum.value << '\n';
 
+  sum s2{1u, 2.0, 3, 4.0f};
+  sum string_sum2{std::string{"abc"}, "def"};
+  std::cout << s2.value << '\n' << string_sum2.value << '\n';
 }
