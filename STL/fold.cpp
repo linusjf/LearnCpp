@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 using namespace std;
 
@@ -18,5 +19,5 @@ int main() {
   string a{"Hello"};
   string b{"World"};
   // Output: Hello World
-  std::cout << sum(a, ", ", b) << endl;
+  cout << sum(a, ", ", b) << endl;
 }
