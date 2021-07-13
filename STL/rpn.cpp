@@ -28,9 +28,9 @@ double evaluate_rpn(IT it, IT end) {
   };
   for (; it != end; ++it) {
     stringstream ss{*it};
-    if (double val; ss >> val) 
+    if (double val; ss >> val)
       val_stack.push(val);
-     else {
+    else {
       const auto r{pop_stack()};
       const auto l{pop_stack()};
       try {
@@ -51,4 +51,8 @@ int main() {
   } catch (const invalid_argument &e) {
     cout << "Invalid operator: " << e.what() << endl;
   }
+  stringstream s{"3 2 1 + * 2 /"};
+  cout << evaluate_rpn(istream_iterator<string>{s}, {}) << endl;
+  vector<string> v{"3", "2", "1", "+", "*", "2", "/"};
+  cout << evaluate_rpn(begin(v), end(v)) << endl;
 }
