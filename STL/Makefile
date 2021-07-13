@@ -3,7 +3,7 @@ CXX = g++
 TERMUX_CLEANER = termux-elf-cleaner
 SOURCE_CXX = $(BASE).cpp
 TARGET = a.out
-LDFLAGS_COMMON = -std=c++2a -stdlib=libc++
+LDFLAGS_COMMON = -std=c++2a -g
 all:
 	$(CXX) $(SOURCE_CXX) $(LDFLAGS_COMMON) -o $(TARGET)
 	$(TERMUX_CLEANER) $(TARGET) &> /dev/null
