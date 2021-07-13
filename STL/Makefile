@@ -13,5 +13,9 @@ runswitch:
 	./$(TARGET) a
 	./$(TARGET) b
 	./$(TARGET) c
+runset:
+	echo "a a a b c foo bar foobar foo bar bar" | ./$(TARGET)
+runmultiset:
+	echo "a a a b c foo bar foobar foo bar bar" | ./$(TARGET)
 clean:
 	rm -rf *.o $(TARGET)
