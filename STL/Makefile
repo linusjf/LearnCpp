@@ -19,5 +19,7 @@ runmultiset:
 	echo "a a a b c foo bar foobar foo bar bar" | ./$(TARGET)
 runrpn:
 	echo "3 1 2 + * 2 /" | ./$(TARGET)
+runwc:
+	cat loremipsum.txt | ./$(TARGET)
 clean:
 	rm -rf *.o $(TARGET)
