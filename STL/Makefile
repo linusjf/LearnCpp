@@ -17,5 +17,7 @@ runset:
 	echo "a a a b c foo bar foobar foo bar bar" | ./$(TARGET)
 runmultiset:
 	echo "a a a b c foo bar foobar foo bar bar" | ./$(TARGET)
+runrpn:
+	echo "3 1 2 + * 2 /" | ./$(TARGET)
 clean:
 	rm -rf *.o $(TARGET)
