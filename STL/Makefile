@@ -23,5 +23,7 @@ runadapter:
 	echo "1 2 3 4 5" | ./$(TARGET)
 runwc:
 	cat loremipsum.txt | ./$(TARGET)
+runsentinel:
+	./$(TARGET) "abcdefghijklmnopqrstuvwxyz"
 clean:
 	rm -rf *.o $(TARGET)
