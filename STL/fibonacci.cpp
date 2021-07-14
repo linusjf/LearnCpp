@@ -9,11 +9,6 @@ class fibit {
   size_t b{1};
 
  public:
-  fibit() = default;
-
-  explicit fibit(size_t i_) : i{i_} {
-  }
-
   size_t operator*() const {
     return b;
   }
@@ -29,6 +24,13 @@ class fibit {
   bool operator!=(const fibit& o) const {
     return i != o.i;
   }
+
+ private:
+  fibit() = default;
+
+  explicit fibit(size_t i_) : i{i_} {
+  }
+  friend class fib_range;
 };
 
 namespace std {
