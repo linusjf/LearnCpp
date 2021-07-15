@@ -28,4 +28,4 @@ runwc:
 runsentinel:
 	./$(TARGET) "abcdefghijklmnopqrstuvwxyz"
 clean:
-	rm -rf *.o $(TARGET)
+	rm -f ./$(TARGET)
