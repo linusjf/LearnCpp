@@ -21,6 +21,8 @@ runrpn:
 	echo "3 1 2 + * 2 /" | ./$(TARGET)
 runadapter:
 	echo "1 2 3 4 5" | ./$(TARGET)
+runconjunct:
+	echo "ac cb ab axxxb" | ./$(TARGET)
 runwc:
 	cat loremipsum.txt | ./$(TARGET)
 runsentinel:

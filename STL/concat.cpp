@@ -4,19 +4,15 @@
 using namespace std;
 template <typename T, typename... Ts>
 auto concat(T t, Ts... ts) {
-  if constexpr (sizeof...(ts) > 0) {
+  if constexpr (sizeof...(ts) > 0) 
     return [=](auto... parameters) { return t(concat(ts...)(parameters...)); };
-  } else {
+   else 
     return t;
-  }
 }
 
 template <typename F, typename G, typename H>
-auto concatt(F f, G g, H h)
-{
-return [=](auto ... params) {
-return f( g( h( params... ) ) );
-};
+auto concatt(F f, G g, H h) {
+  return [=](auto... params) { return f(g(h(params...))); };
 }
 
 int main() {
