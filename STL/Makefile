@@ -31,3 +31,8 @@ runtransformif:
 	echo "1 2 3 4 5 6 7 8 9 0" | ./$(TARGET) 
 clean:
 	rm -f ./$(TARGET)
+dumpast:
+	clang -Xclang -ast-dump -fsyntax-only $(BASE).cpp
+dumprecord:
+	clang -E $(BASE).cpp > $(BASE)_pp.cpp
+	clang -cc1 -emit-llvm -fdump-record-layouts-simple $(BASE)_pp.cpp
