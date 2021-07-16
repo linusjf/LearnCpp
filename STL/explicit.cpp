@@ -7,10 +7,16 @@ class Z {
   void g(){};
 };
 
+template class Z<int>;
+  //explicit instantiation of class Z<float>
+template class Z<float>;
+
+template <class T>
+void Test([[maybe_unused]] T r_t){};
+
+template void Test<int>(int);
+
 int main() {
   //explicit instantiation of class Z<int>
-  [[maybe_unused]] typedef Z<int> ZInt;    
-  //explicit instantiation of class Z<float>
-  [[maybe_unused]] typedef Z<float> ZFloat;  
   return 0;
 }
