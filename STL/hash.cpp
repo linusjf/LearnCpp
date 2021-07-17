@@ -17,6 +17,10 @@ constexpr uint64_t hash_128_to_64(const uint64_t upper,
   return b;
 }
 
+size_t hash_combine() {
+  return 0;
+}
+
 template <typename T>
 size_t hash_combine(const T& t) {
   return hash<T>()(t);
@@ -49,5 +53,6 @@ int main() {
   obj.y = "hello";
   obj.z = 34.0;
   cout << obj.hash() << endl;
-
+  Object obj2;
+  cout << obj2.hash() << endl;
 }

@@ -24,11 +24,13 @@ my_wrapper<T1, T2, T3> make_wrapper(T1 t1, T2 t2, T3 t3) {
 template <typename T>
 struct sum {
   T value;
-  template <typename... Ts>
-  sum(Ts&&... values) : value{(values + ...)} {
+  sum(T val) : value{val} {
   }
   template <typename... Ts>
-  sum(Ts&&... ts) -> sum<std::common_type_t<Ts...>>;
+  sum(T val, Ts&&... values) : value{val + (values + ...)} {
+  }
+  template <typename... Ts>
+  sum(T val,Ts&&... ts) -> sum<std::common_type_t<T,Ts...>>;
 };
 
 int main() {
