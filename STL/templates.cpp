@@ -29,9 +29,9 @@ struct sum {
   template <typename... Ts>
   sum(T val, Ts&&... values) : value{val + (values + ...)} {
   }
-  template <typename... Ts>
-  sum(T val,Ts&&... ts) -> sum<std::common_type_t<T,Ts...>>;
 };
+template <typename ... Ts>
+sum(T val,Ts&& ... ts) -> sum<std::common_type_t<T,Ts...>>;
 
 int main() {
   // pair<int, const char*>
