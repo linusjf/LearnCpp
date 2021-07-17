@@ -8,9 +8,6 @@
 using namespace std;
 
 template <typename... Ts>
-auto sum(Ts... ts);
-
-template <typename... Ts>
 auto sum(Ts... ts) {
   return (ts + ...);
 }
