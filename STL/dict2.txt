@@ -1,0 +1,3 @@
+table tisch
+fish fisch
+dog hund

@@ -1,3 +1,4 @@
 *.ll
 *_pp.cpp
 *.txt
+!dict*.txt
