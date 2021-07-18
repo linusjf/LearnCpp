@@ -22,11 +22,10 @@ ostream &operator<<(ostream &os, const city &city) {
 template <typename C>
 static auto opt_print(const C &container) {
   return [end_it(end(container))](const auto &item) {
-    if (item != end_it) {
+    if (item != end_it) 
       cout << *item << endl;
-    } else {
-      cout << "<end>\n";
-    }
+     else
+      cout << "<end>" << endl;
   };
 }
 
