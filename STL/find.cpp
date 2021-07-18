@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <list>
 #include <string>
@@ -59,7 +60,7 @@ int main() {
   const vector<int> v{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
   auto print_int(opt_print(v));
   bool contains_7{binary_search(begin(v), end(v), 7)};
-  cout << contains_7 << endl;
+  cout << boolalpha << contains_7 << endl;
   auto [lower_it, upper_it](equal_range(begin(v), end(v), 7));
   print_int(lower_it);
   print_int(upper_it);
