@@ -29,6 +29,8 @@ runsentinel:
 	./$(TARGET) "abcdefghijklmnopqrstuvwxyz"
 runtransformif:
 	echo "1 2 3 4 5 6 7 8 9 0" | ./$(TARGET) 
+runpermute:
+	echo "a b c d" | ./$(TARGET) 
 clean:
 	rm -f ./$(TARGET)
 dumpast:
