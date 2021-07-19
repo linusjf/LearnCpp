@@ -2,3 +2,4 @@
 *_pp.cpp
 *.txt
 !dict*.txt
+!db.txt
