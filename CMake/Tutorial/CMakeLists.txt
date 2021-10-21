@@ -20,7 +20,7 @@ set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CMAKE_SOURCE_D
 
 if(USE_MYMATH)
   add_subdirectory(MathFunctions)
-  list(APPEND EXTRA_LIBS MathFunctions/libMathFunctions.a)
+  list(APPEND EXTRA_LIBS MathFunctions)
 endif()
 
 # add the executable
@@ -36,4 +36,3 @@ target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 target_include_directories(Tutorial PUBLIC
                            "${PROJECT_BINARY_DIR}"
                            )
-
