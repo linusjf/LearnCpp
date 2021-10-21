@@ -1,0 +1,19 @@
+cmake_minimum_required (VERSION 3.10)
+
+# projectname is the same as the main-executable
+project(Tutorial)
+SET(NAME "${PROJECT_NAME}" CACHE STRING "Project name passed as executable name")
+
+add_definitions('-g')
+add_definitions('-Wall')
+add_definitions('-std=c++17')
+
+add_executable(${PROJECT_NAME} ${PROJECT_NAME}.cpp)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -DNAME:STRING=${PROJECT_NAME} -P elfclean.cmake
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+  COMMENT "Running termux-elf-cleaner..."
+  )
+
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CMAKE_SOURCE_DIR}/${PROJECT_NAME})
