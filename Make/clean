@@ -1,3 +1,4 @@
 rm blah*
 rm *.o
 ./runmake autovars clean
+./runmake fancy clean
