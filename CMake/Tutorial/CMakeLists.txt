@@ -16,8 +16,11 @@ add_definitions('-g')
 add_definitions('-Wall')
 add_definitions('-std=c++17')
 
+<<<<<<< HEAD
 set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CMAKE_SOURCE_DIR}/${PROJECT_NAME})
 
+=======
+>>>>>>> development
 if(USE_MYMATH)
   add_subdirectory(MathFunctions)
   list(APPEND EXTRA_LIBS MathFunctions)
@@ -30,6 +33,7 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   COMMENT "Running termux-elf-cleaner..."
   )
+set_directory_properties(PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES ${CMAKE_SOURCE_DIR}/${PROJECT_NAME})
 target_link_libraries(Tutorial PUBLIC ${EXTRA_LIBS})
 # add the binary tree to the search path for include files
 # so that we will find TutorialConfig.h
