@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+if [ "$2" ]
+then
+  make -f Makefile."$1" "$2"
+else
+  make -f Makefile."$1"
+fi
+
