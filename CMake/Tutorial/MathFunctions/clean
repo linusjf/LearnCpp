@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+rm -rf CMakeFiles
+rm cmake*.cmake
+rm CMakeCache.txt
+rm Makefile
+rm *.a

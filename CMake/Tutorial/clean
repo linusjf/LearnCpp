@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+rm -rf CMakeFiles
+rm Tutorial
+rm cmake*.cmake
+rm CMakeCache.txt
+rm Makefile
+rm TutorialConfig.h
