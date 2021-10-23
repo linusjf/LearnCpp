@@ -1,12 +1,10 @@
 # Makefile
-# , 2021-10-22 05:35
+# 2021-10-22 05:35
 #
 SHELL:=/usr/bin/env bash
-PRG_SUFFIX_FLAG := 1
-ifeq ($(origin CXX),default)
-CXX := g++
-endif
 TERMUX := termux-elf-cleaner
+PRG_SUFFIX_FLAG := 1
+CXX := g++
 LDFLAGS := 
 CXXFLAGS_INC := -std=c++17
 CXXFLAGS := -g -Wall  $(CXXFLAGS_INC)
@@ -17,9 +15,6 @@ SRCS := $(wildcard *.cpp)
 PRGS := $(patsubst %.cpp,%,$(SRCS))
 BINS := $(patsubst %,%$(PRG_SUFFIX),$(PRGS))
 $(info $$BINS is [${BINS}])
-## OBJS are automagically compiled by make.
-## It's not quite magic.Relies on implicit 
-## rule for .c files.
 OBJS := $(patsubst %,%.o,$(PRGS))
 DEPS := 
 
@@ -37,9 +32,6 @@ ifeq ($(PRG_SUFFIX_FLAG),0)
 else
 	BIN = $@
 endif
-## Compile and link  the executable
-## The rule below explicitly links the 
-## .o files.
 %$(PRG_SUFFIX) : $(OBJS)
 	echo $@
 	-$(LINK)
@@ -50,9 +42,6 @@ $(OBJS): $(SRCS)
 $(SRCS):
 	-$(COMPILE)
 
-##
-## $(OBJS) should be automagically removed right after linking.
-##
 veryclean:
 ifeq ($(PRG_SUFFIX_FLAG),0)
 	$(RM) $(PRGS) $(OBJS) || true
