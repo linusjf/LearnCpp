@@ -1,4 +1,3 @@
-#
 # Makefile
 # , 2021-10-22 05:35
 #
@@ -27,33 +26,40 @@ DEPS :=
 all: $(BINS)
 
 .SECONDEXPANSION:
+SRC = $(patsubst %$(PRG_SUFFIX),%.cpp,$@)
 OBJ = $(patsubst %$(PRG_SUFFIX),%.o,$@)
+COMPILE =	$(CXX) -o $(OBJ) -c $(SRC)
 LINK =	$(CXX) $(OBJ) $(DEPS) $(LDFLAGS) -o $(BIN)
 STRIP =	$(TERMUX) $(BIN) &> /dev/null || true
 
 ifeq ($(PRG_SUFFIX_FLAG),0)
-        BIN = $(patsubst %$(PRG_SUFFIX),%,$@)
+	BIN = $(patsubst %$(PRG_SUFFIX),%,$@)
 else
-        BIN = $@
+	BIN = $@
 endif
 ## Compile and link  the executable
 ## The rule below explicitly links the 
 ## .o files.
 %$(PRG_SUFFIX) : $(OBJS)
+	echo $@
 	-$(LINK)
 	-$(STRIP)
+
+$(OBJS): $(SRCS)
+
+$(SRCS):
+	-$(COMPILE)
 
 ##
 ## $(OBJS) should be automagically removed right after linking.
 ##
 veryclean:
 ifeq ($(PRG_SUFFIX_FLAG),0)
-	$(RM) $(PRGS)
+	$(RM) $(PRGS) $(OBJS) || true
 else
-	$(RM) $(BINS)
+	$(RM) $(BINS) $(OBJS) || true
 endif
-##
+
 rebuild: veryclean all
-##
 
 .PHONY: rebuild veryclean all
