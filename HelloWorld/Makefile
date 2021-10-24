@@ -37,10 +37,7 @@ endif
 	-$(LINK)
 	-$(STRIP)
 
-$(OBJS): $(SRCS)
-
-$(SRCS):
-	-$(COMPILE)
+$(OBJS): %.o:%.cpp
 
 veryclean:
 ifeq ($(PRG_SUFFIX_FLAG),0)
