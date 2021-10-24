@@ -33,7 +33,7 @@ else
 	BIN = $@
 endif
 %$(PRG_SUFFIX) : $(OBJS)
-	echo $@
+	@echo $@
 	-$(LINK)
 	-$(STRIP)
 
