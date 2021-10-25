@@ -1,0 +1,55 @@
+# Makefile
+# 2021-10-22 05:35
+#
+SHELL:=/usr/bin/env bash
+TERMUX := termux-elf-cleaner
+PRG_SUFFIX_FLAG := 1
+CXX := g++
+LDFLAGS := 
+CXXFLAGS_INC := -std=c++17
+CXXFLAGS := -g -Wall $(CXXFLAGS_INC)
+
+PRG_SUFFIX=.out
+
+SRCS := $(wildcard *.cpp)
+PRGS := $(patsubst %.cpp,%,$(SRCS))
+BINS := $(patsubst %,%$(PRG_SUFFIX),$(PRGS))
+OBJS := $(patsubst %,%.o,$(PRGS))
+$(info $$BINS is [${BINS}])
+$(info $$SRCS is [${SRCS}])
+$(info $$OBJS is [${OBJS}])
+$(info $$PRGS is [${PRGS}])
+DEPS := 
+
+all: $(BINS)
+
+.SECONDEXPANSION:
+SRC = $(patsubst %$(PRG_SUFFIX),%.cpp,$@)
+OBJ = $(patsubst %$(PRG_SUFFIX),%.o,$@)
+COMPILE =	$(CXX) -o $(OBJ) -c $(SRC)
+LINK =	$(CXX) $(OBJ) $(DEPS) $(LDFLAGS) -o $(BIN)
+STRIP =	$(TERMUX) $(BIN) &> /dev/null || true
+
+ifeq ($(PRG_SUFFIX_FLAG),0)
+	BIN = $(patsubst %$(PRG_SUFFIX),%,$@)
+else
+	BIN = $@
+endif
+
+%$(PRG_SUFFIX): 
+	@echo "Executing target" $@ "..."
+	-$(COMPILE)
+	-$(LINK)
+	-$(STRIP)
+	@echo "Target" $@ "built."
+
+veryclean:
+ifeq ($(PRG_SUFFIX_FLAG),0)
+	$(RM) $(PRGS) $(OBJS) || true
+else
+	$(RM) $(BINS) $(OBJS) || true
+endif
+
+rebuild: veryclean all
+
+.PHONY: rebuild veryclean
