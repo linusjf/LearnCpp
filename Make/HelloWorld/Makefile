@@ -18,14 +18,17 @@ $(info $$BINS is [${BINS}])
 OBJS := $(patsubst %,%.o,$(PRGS))
 DEPS := 
 
-# help - The default goal
-help:
+define help-script
 	@$(MAKE) --print-data-base --question no-such-target | \
 		grep -v -e '^no-such-target' -e '^makefile' | \
 		awk '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | \
 		sort | \
 	  pr --omit-pagination --width=80 --columns=4
+endef
 
+# help - The default goal
+help:
+	${help-script}
 
 all: $(BINS)
 
