@@ -8,22 +8,26 @@ CXX := g++
 LDFLAGS := 
 CXXFLAGS_INC := -std=c++17
 CXXFLAGS := -g -Wall $(CXXFLAGS_INC)
+AWK := awk
+GREP := grep
+SORT := sort
+PR := pr
 
-PRG_SUFFIX=.out
+PRG_SUFFIX = .out
 
 SRCS := $(wildcard *.cpp)
 PRGS := $(patsubst %.cpp,%,$(SRCS))
 BINS := $(patsubst %,%$(PRG_SUFFIX),$(PRGS))
-$(info $$BINS is [${BINS}])
+#$(info $$BINS is [${BINS}])
 OBJS := $(patsubst %,%.o,$(PRGS))
 DEPS := 
 
 define help-script
 	@$(MAKE) --print-data-base --question no-such-target | \
-		grep -v -e '^no-such-target' -e '^makefile' | \
-		awk '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | \
-		sort | \
-	  pr --omit-pagination --width=80 --columns=4
+		$(GREP) -v -e '^no-such-target' -e '^makefile' | \
+		$(AWK) '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | \
+		$(SORT) | \
+	  $(PR) --omit-pagination --width=80 --columns=4
 endef
 
 # help - The default goal
