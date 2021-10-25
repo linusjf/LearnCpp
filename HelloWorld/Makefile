@@ -7,7 +7,7 @@ PRG_SUFFIX_FLAG := 1
 CXX := g++
 LDFLAGS := 
 CXXFLAGS_INC := -std=c++17
-CXXFLAGS := -g -Wall  $(CXXFLAGS_INC)
+CXXFLAGS := -g -Wall $(CXXFLAGS_INC)
 
 PRG_SUFFIX=.out
 
@@ -17,6 +17,15 @@ BINS := $(patsubst %,%$(PRG_SUFFIX),$(PRGS))
 $(info $$BINS is [${BINS}])
 OBJS := $(patsubst %,%.o,$(PRGS))
 DEPS := 
+
+# help - The default goal
+help:
+	@$(MAKE) --print-data-base --question no-such-target | \
+		grep -v -e '^no-such-target' -e '^makefile' | \
+		awk '/^[^.%][-A-Za-z0-9_]*:/ { print substr($$1, 1, length($$1)-1) }' | \
+		sort | \
+	  pr --omit-pagination --width=80 --columns=4
+
 
 all: $(BINS)
 
@@ -48,4 +57,6 @@ endif
 
 rebuild: veryclean all
 
-.PHONY: rebuild veryclean all
+no-such-target: ;
+
+.PHONY: rebuild veryclean help no-such-target
