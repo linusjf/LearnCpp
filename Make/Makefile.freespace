@@ -1,0 +1,23 @@
+ifeq ($(TERMUX),1)
+	PREFIX := /data/data/com.termux/files/usr
+else
+	PREFIX := 
+endif
+
+OUTPUT_DIR := ${PREFIX}/tmp
+$(OUTPUT_DIR)/very_big_file:
+	@$(free-space)
+
+define free-space
+  @$(PRINTF) "Free disk space "
+  @$(DF) . | $(AWK) 'NR == 2 { print $$4 }'
+endef
+
+ifeq ($(TERMUX),1)
+	BIN := $(PREFIX)/bin
+else
+	BIN := $(PREFIX)/usr/bin
+endif
+PRINTF := $(BIN)/printf
+DF     := $(BIN)/df
+AWK    := $(BIN)/awk
