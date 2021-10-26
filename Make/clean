@@ -1,4 +1,5 @@
-rm blah*
-rm *.o
+rm blah* &> /dev/null || true
+rm *.o &> /dev/null || true
+rm ./foo.mk &> /dev/null || true
 ./runmake autovars clean
 ./runmake fancy clean
