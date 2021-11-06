@@ -43,6 +43,7 @@ endif
 	-$(STRIP)
 	@echo "Target" $@ "built."
 
+
 veryclean:
 ifeq ($(PRG_SUFFIX_FLAG),0)
 	$(RM) $(PRGS) $(OBJS) || true
@@ -52,4 +53,4 @@ endif
 
 rebuild: veryclean all
 
-.PHONY: rebuild veryclean
+.PHONY: rebuild veryclean %.o
