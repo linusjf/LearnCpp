@@ -2,6 +2,9 @@
 #include <iostream>
 #include <string>
 
+/**
+https://www.linkedin.com/posts/ramtintjb_cplusplus-datastructuresandalgorithms-activity-7138875647031971840-QPD8
+*/
 void log(const std::string& msg,
     const std::source_location loc =
     std::source_location::current()) {
